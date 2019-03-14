@@ -1,6 +1,3 @@
-import "babel-polyfill"; // Solution found for use async/await with Parcel.
-import axios from 'axios';
-
 const data = [
     {
         "car_id": 1,
@@ -16,18 +13,31 @@ const data = [
     },
 ];
 
-const UrlCarsAPI = 'http://localhost:3050/api/cars';
-
-export const getAllCars = async () => {
-    const result = await axios.get(UrlCarsAPI);
-    return await result.data;
+export const getAllCars = () => {
+    return new Promise((resolve, _) => {
+        setTimeout(() => {
+            const cars = data.map((i) => i);
+            resolve(cars);
+        }, 500);
+    });
 }
 
-export const getCarById = async (id) => {
-    const result = await axios.get(`${UrlCarsAPI}/${id}`);
-    return await result.data;
+export const getCarById = (id) => {
+    return new Promise((resolve, _) => {
+        setTimeout(() => {
+            const car = data.map((i) => i)
+                .find((c) => c.car_id === id);
+            resolve(car);
+        }, 500);
+    });
 }
 
-export const addCar = async (car) => {
-    return await axios.post(UrlCarsAPI, car);
+export const addCar = (car) => {
+    return new Promise((resolve, _) => {
+        setTimeout(() => {
+            car['car_id'] = (data.length + 1);
+            data.push(car);
+            resolve('ok'); // TODO: Check with browser
+        }, 500);
+    }); 
 };
